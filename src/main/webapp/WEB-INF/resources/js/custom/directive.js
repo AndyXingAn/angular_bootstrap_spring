@@ -1,7 +1,7 @@
 app.directive('exampleFocus', function ($timeout) {
     return {
         scope: {
-            trigger: '@speakFocus'
+            trigger: '@exampleFocus'
         },
         link: function (scope, element) {
             scope.$watch('trigger', function () {
