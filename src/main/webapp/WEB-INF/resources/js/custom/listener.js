@@ -1,4 +1,4 @@
-app.run(function($rootScope, $http, $location, Base64Service, AuthenticationService, localStorageService, editableOptions) {
+app.run(function ($rootScope, $http, $location, Base64Service, AuthenticationService, localStorageService, editableOptions) {
 
     editableOptions.theme = 'bs3';
 
@@ -6,24 +6,20 @@ app.run(function($rootScope, $http, $location, Base64Service, AuthenticationServ
     $rootScope.requests401 = [];
     $rootScope.navigateTo = "/main";
 
-    $rootScope.$on('$routeChangeSuccess', function(event, next, current) {
+    $rootScope.$on('$routeChangeSuccess', function (event, next, current) {
         $rootScope.user = localStorageService.get('localStorageUser');
     });
-	
-	/**
+
+    /**
      * Holds all the requests which failed due to 401 response.
      */
-     $rootScope.$on('event:loginRequired', function () {
-    	$rootScope.requests401 = [];
-    	
-    	if ($location.path().indexOf("/login") == -1) {
-            $rootScope.navigateTo = $location.path();
-    	}
+    $rootScope.$on('event:loginRequired', function () {
+        $rootScope.requests401 = [];
 
-        if(!containsError("LOGIN_REQ")) {
-            $rootScope.errors.push({ code: "LOGIN_REQ", message: "Please enter a valid username / password" });
+        if ($location.path().indexOf("/login") == -1) {
+            $rootScope.navigateTo = $location.path();
         }
-   
+
         $location.path('/login');
     });
 
@@ -51,7 +47,7 @@ app.run(function($rootScope, $http, $location, Base64Service, AuthenticationServ
      * On 'event:loginRequest' send credentials to the server.
      */
     $rootScope.$on('event:loginRequest', function (event, username, password) {
-    	// set the basic authentication header that will be parsed in the next request and used to authenticate
+        // set the basic authentication header that will be parsed in the next request and used to authenticate
         $http.defaults.headers.common['Authorization'] = 'Basic ' + Base64Service.encode(username + ':' + password);
 
         AuthenticationService.login().then(
@@ -61,6 +57,9 @@ app.run(function($rootScope, $http, $location, Base64Service, AuthenticationServ
                 $rootScope.$broadcast('event:loginConfirmed');
 
                 console.log("You have been successfully logged in.")
+            },
+            function error() {
+                $rootScope.errors.push({ code: "LOGIN_FAILED", message: "Oooooops something went wrong, please try again" });
             });
     });
 
@@ -75,15 +74,9 @@ app.run(function($rootScope, $http, $location, Base64Service, AuthenticationServ
                 $rootScope.user = localStorageService.get('localStorageUser');
 
                 console.log("You have been successfully logged out.")
-            });
+            },
+            function error() {
+                $rootScope.errors.push({ code: "LOGOUT_FAILED", message: "Oooooops something went wrong, please try again" });
+            })
     });
-
-    function containsError(code) {
-        for(var i in $rootScope.errors) {
-            if ($rootScope.errors[i].code == code) {
-                return true;
-            }
-        }
-        return false;
-    }
 });
