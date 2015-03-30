@@ -5,22 +5,54 @@ Angular JS with Bootstrap and Spring 4 and Spring Security
 
 This example is an angular js single page application (SPA) with bootstrap for the widgets and styling.
 
+The application has been broken into two modules API and CLIENT, both are built separately and both are deployed separately.
+
+The API can run on any web server, but it has been tested against Tomcat 8, the server required http DELETE and PUT, so ensure your web server can support those http methods.
+
+The CLIENT currently is run via grunt, for a production release you could extract the .zip artefact and run the static client via Apache.
+
+Ensure that you proxy the API so that you have the same domain otherwise you will experience CORS related issues. (deployed artefacts only)
+
 Spring 4: 
 	Used to create RESTful controller interfaces which in turn gets called through ajax requests.
 	
-Spring Security 3:
-	Uses a simple setup with a http basic entry point configured that will always return http status unauthorised (401),
-	this will result in angular js intercepting the response and if a 401 is detected an login event will be fired.
-	A basic authentication will be triggered and the user credentials will be validated against the user service that
-	is specified in the spring security config. Spring Security session management is being used.
+Spring Security 4:
+    Used for a stateless api that allows authentication via basic authentication or token authentication.
 
-Login Details as per spring security configuration:    
-	Username = user    
+    Upon authentication a token is attached to the header response which can in turn be used for sequential requests to be authenticated against.
+
+	When an authentication fails a 401 will always be returned.
+
+Login Details as per database inject.sql:
+	Username = user@tester.com.au
 	Password = password    
 
 Testing
 ====================
-Simply run on the parent pom     
-   mvn clean install    
-   
+Simply run on the parent pom to have node and modules auto install and execute all tests. (REQUIRED FOR FIRST RUN)
+   mvn clean install
+
+To run specific profiles please run mvn clean install and simple pass the profile you wish to execute.
+
 This will execute Java and Jasmine tests that will test both java classes and angular js files.
+
+Running
+====================
+
+Recommendations:
+
+Use IntelliJ 14+ to run the application.
+
+To run the API via Tomcat 8 please set the following:
+Deploy exploded artefact to Tomcat 8 and ensure the root context is set to API
+
+To run the CLIENT via gulp.js please set the following:
+
+Gulp File: <PATH>\angular_bootstrap_spring\client\gulpfile.js
+Tasks: run
+Node Interpreter: <NODE_PATH>\node.exe
+Gulp package: <PATH>\angular_bootstrap_spring\client\node_modules\gulp
+
+The application is set to run on http://localhost:7777
+
+You can also run jasmine only tests if you wish via the front end: http://localhost:7777/test

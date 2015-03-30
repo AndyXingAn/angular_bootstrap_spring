@@ -18,7 +18,6 @@
         <jdk.version>1.7</jdk.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <paypal.version>2.9.115</paypal.version>
         <spring.version>4.0.2.RELEASE</spring.version>
         <spring.security.version>4.0.0.M1</spring.security.version>
         <hibernate.version>4.3.0.Final</hibernate.version>
@@ -256,11 +255,6 @@
         </dependency>
 
         <!-- Dependent Resources -->
-        <dependency>
-            <groupId>com.paypal.sdk</groupId>
-            <artifactId>merchantsdk</artifactId>
-            <version>${paypal.version}</version>
-        </dependency>
         <dependency>
             <groupId>net.sourceforge.jtds</groupId>
             <artifactId>jtds</artifactId>

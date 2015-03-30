@@ -26,7 +26,7 @@ describe('CustomerService Tests', function (){
     });
 
     describe('CustomerService Get Customers Tests', function() {
-        it('should return results from get customers function call', inject(function ($httpBackend, customerService) {
+        it('should return results from get customers function call', inject(function ($httpBackend, customerService, propertiesConstant) {
             var customers = [
                 {"id": 1, "firstName": "Foo", "lastName": "Bar"},
                 {"id": 2, "firstName": "Jim", "lastName": "Sunny"},
@@ -34,7 +34,7 @@ describe('CustomerService Tests', function (){
                 {"id": 4, "firstName": "Sam", "lastName": "Sully"}
             ];
 
-            $httpBackend.whenGET('customer/customers/retrieve').respond(customers);
+            $httpBackend.whenGET(propertiesConstant.API_URL + '/customer/customers/retrieve').respond(customers);
 
             // check result returned from service call
             customerService.getCustomers().then(function (data) {
@@ -43,7 +43,7 @@ describe('CustomerService Tests', function (){
 
             $httpBackend.flush();
 
-            $httpBackend.expectGET('customer/customers/retrieve').respond(customers);
+            $httpBackend.expectGET(propertiesConstant.API_URL + '/customer/customers/retrieve').respond(customers);
         }));
     });
 });
