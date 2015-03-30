@@ -55,13 +55,15 @@ Deploy exploded artefact to Tomcat 8 and ensure the root context is set to API.
 
 ### Run the CLIENT via gulp.js:
 
-**Gulp File:** <PATH>\angular_bootstrap_spring\client\gulpfile.js
+Where PATH is the directory to your checked out project.
+
+**Gulp File:** PATH\angular_bootstrap_spring\client\gulpfile.js
 
 **Tasks:** run
 
-**Node Interpreter:** <NODE_PATH>\node.exe
+**Node Interpreter:** PATH\angular_bootstrap_spring\client\node\node.exe
 
-**Gulp package:** <PATH>\angular_bootstrap_spring\client\node_modules\gulp
+**Gulp package:** PATH\angular_bootstrap_spring\client\node_modules\gulp
 
 ### The application is set to run on
 
