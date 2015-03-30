@@ -30,19 +30,19 @@ angular.module('app').config([ '$routeProvider', '$httpProvider', '$locationProv
 	$routeProvider
 		.when('/main', {
             title: 'Main',
-			templateUrl: 'resources/html/partials/view/main.html'
+			templateUrl: 'html/partials/view/main.html'
 		})
 		.when('/customer/search', {
             title: 'Customer Search',
 			controller: 'CustomerController',
-			templateUrl: 'resources/html/partials/view/customer_search.html',
+			templateUrl: 'html/partials/view/customer_search.html',
             resolve: {
                 user: user
             }
 		})
 		.when('/login', {
             title: 'Login',
-			templateUrl: 'resources/html/partials/view/login.html',
+			templateUrl: 'html/partials/view/login.html',
             controller: 'LoginController',
             resolve: {
                 clear: clear
