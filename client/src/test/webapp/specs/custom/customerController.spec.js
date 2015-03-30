@@ -27,150 +27,55 @@ describe('CustomerController Tests', function() {
             ];
         })
     );
+});
 
-    describe('CustomerController Structural Tests', function() {
+describe('CustomerController Tests', function () {
+    beforeEach(module('app.controllers'));
+    beforeEach(module(function ($provide) {
 
-        it('should have an init function in scope', function () {
-            expect(angular.isFunction($rootScope.init)).toBe(true);
-        });
+            $provide.value('$scope', {
+                remove: jasmine.createSpy('$scope.remove'),
+                save: jasmine.createSpy('$scope.save')
+            });
 
-        it('should have an save function in scope', function () {
-            expect(angular.isFunction($rootScope.save)).toBe(true);
-        });
+            $provide.factory('customerService', function ($jasmine) {
+                return $jasmine.createPromiseSpyObj(
+                    'customerService', [ 'getCustomers', 'deleteCustomer', 'saveCustomer' ]
+                );
+            });
 
-        it('should have an delete function in scope', function () {
-            expect(angular.isFunction($rootScope.delete)).toBe(true);
-        });
+            $provide.factory('messageService', function ($jasmine) {
+                return $jasmine.createPromiseSpyObj(
+                    'messageService', [ 'error' ]
+                );
+            });
+        })
+    );
+
+    describe('CustomerController Structural Tests', function () {
+        it('should have an remove function in scope', inject(function ($scope) {
+            expect(angular.isFunction($scope.remove)).toBe(true);
+        }));
+
+        it('should have an save function in scope', inject(function ($scope) {
+            expect(angular.isFunction($scope.save)).toBe(true);
+        }));
+
     });
 
-    describe('CustomerController Init Tests', function() {
+    describe('CustomerController Save Tests', function () {
+        it('should have not saved any data with service call returning true', inject(function ($controller, $scope, customerService, messageService) {
+            $controller('CustomerController');
 
-        beforeEach(function() {
-            //setup the spy to always return the spyPromise for the entire test spec
-            mockCustomerService.getCustomers.and.returnValue(spyPromise);
-        });
+            var customer = {"id": 2, "firstName": "Jim", "lastName": "Sunny"};
 
-        it('should initially has customers undefined before any calls are made', function(){
-            expect($rootScope.customers).toEqual(undefined);
-        });
+            $scope.save(2);
 
-        it('should have scope variable customers populated', function () {
-            $rootScope.init();
+            customerService.saveCustomer.$resolve(true);
 
-            deferred.resolve(customerData);
+            expect(customerService.saveCustomer).toHaveBeenCalledWith(customer);
+            expect(messageService.error).not.toHaveBeenCalled();
+        }));
 
-            $rootScope.$apply();
-
-            expect($rootScope.customers).toEqual(customerData);
-            expect(mockCustomerService.getCustomers).toHaveBeenCalled();
-        });
-    });
-
-    describe('CustomerController Save Tests', function() {
-
-        beforeEach(function() {
-            spyOn(console, 'error');
-
-            $rootScope.customers = customerData;
-
-            //setup the spy to always return the spyPromise for the entire test spec
-            mockCustomerService.saveCustomer.and.returnValue(spyPromise);
-        });
-
-        it('should initially has customers populated before any calls are made', function(){
-            expect($rootScope.customers).toEqual(customerData);
-        });
-
-        it('should have not saved any data with service call returning true', function () {
-            $rootScope.save(2);
-
-            deferred.resolve(true);
-
-            $rootScope.$apply();
-
-            expect($rootScope.customers).toEqual(customerData);
-            expect(mockCustomerService.saveCustomer).toHaveBeenCalled();
-            expect(console.error).not.toHaveBeenCalled();
-        });
-
-        it('should have not saved any data with service call returning false', function () {
-            $rootScope.save(2);
-
-            deferred.resolve(false);
-
-            $rootScope.$apply();
-
-            expect($rootScope.customers).toEqual(customerData);
-            expect(mockCustomerService.saveCustomer).toHaveBeenCalled();
-            expect(console.error).toHaveBeenCalled();
-        });
-
-        it('should have not saved any data with customers undefined', function () {
-            $rootScope.customers = undefined;
-
-            $rootScope.save(2);
-
-            deferred.resolve(false);
-
-            $rootScope.$apply();
-
-            expect($rootScope.customers).toEqual(undefined);
-            expect(mockCustomerService.saveCustomer).not.toHaveBeenCalled();
-            expect(console.error).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('CustomerController Delete Tests', function() {
-
-        beforeEach(function() {
-            spyOn(console, 'error');
-
-            $rootScope.customers = customerData;
-
-            //setup the spy to always return the spyPromise for the entire test spec
-            mockCustomerService.deleteCustomer.and.returnValue(spyPromise);
-        });
-
-        it('should initially has customers populated before any calls are made', function(){
-            expect($rootScope.customers).toEqual(customerData);
-        });
-
-        it('should have scope variable customers populated with deleted customer removed', function () {
-            $rootScope.delete(2);
-
-            deferred.resolve(true);
-
-            $rootScope.$apply();
-
-            expect($rootScope.customers).toEqual([ { id : 1, firstName : 'Foo', lastName : 'Bar' }, { id : 3, firstName : 'Peter', lastName : 'Prone' }, { id : 4, firstName : 'Sam', lastName : 'Sully' } ]);
-            expect(mockCustomerService.deleteCustomer).toHaveBeenCalled();
-            expect(console.error).not.toHaveBeenCalled();
-        });
-
-        it('should have not deleted any data with service call returning false', function () {
-            $rootScope.delete(2);
-
-            deferred.resolve(false);
-
-            $rootScope.$apply();
-
-            expect($rootScope.customers).toEqual(customerData);
-            expect(mockCustomerService.deleteCustomer).toHaveBeenCalled();
-            expect(console.error).toHaveBeenCalled();
-        });
-
-        it('should have not deleted any data with customers undefined', function () {
-            $rootScope.customers = undefined;
-
-            $rootScope.delete(2);
-
-            deferred.resolve(false);
-
-            $rootScope.$apply();
-
-            expect($rootScope.customers).toEqual(undefined);
-            expect(mockCustomerService.deleteCustomer).toHaveBeenCalled();
-            expect(console.error).toHaveBeenCalled();
-        });
     });
 });

@@ -116,7 +116,7 @@ function appJs() {
         'src/main/webapp/js/angular/angular-messages.js',
         'src/main/webapp/js/angular/angular-aria.js',
         'src/main/webapp/js/bootstrap/bootstrap.js',
-        'src/main/webapp/js/angular-social/angular-sociallinks.js',
+        'src/main/webapp/js/angular-xeditable/xeditable.js',
         'src/main/webapp/js/custom/app.js',
         'src/main/webapp/js/custom/config.js',
         'src/main/webapp/js/custom/listener.js',
@@ -139,7 +139,7 @@ function testJs() {
         'src/main/webapp/js/angular/angular-messages.js',
         'src/main/webapp/js/angular/angular-aria.js',
         'src/main/webapp/js/bootstrap/bootstrap.js',
-        'src/main/webapp/js/angular-social/angular-sociallinks.js',
+        'src/main/webapp/js/angular-xeditable/xeditable.js',
         'src/test/webapp/specs/angular/angular-mocks.js',
         'src/test/webapp/specs/angular/angular-jasmine.js',
         'src/main/webapp/js/custom/app.js',
@@ -204,7 +204,7 @@ gulp.task('run', ['watch-scss'], function () {
     var logPrefix = '[' + util.colors.blue('run') + ']';
 
     var apiUrl = argv['api-url'] || process.env['GULP_API_URL'] || 'http://localhost:8080/';
-    var expressPort = argv['express-port'] || process.env['GULP_EXPRESS_PORT'] || 4444;
+    var expressPort = argv['express-port'] || process.env['GULP_EXPRESS_PORT'] || 7777;
     var liveReloadPort = argv['live-reload-port'] || process.env['GULP_LIVE_RELOAD_PORT'] || 35729;
 
     var liveReload = tinyLiveReload();

@@ -1,53 +1,96 @@
-app.config([ '$routeProvider', '$httpProvider', 'localStorageServiceProvider', function($routeProvider, $httpProvider, localStorageServiceProvider) {
+'use strict';
 
-    // ======= local storage configuration ========
+angular.module('app').config([ '$routeProvider', '$httpProvider', '$locationProvider', function($routeProvider, $httpProvider, $locationProvider) {
 
-    localStorageServiceProvider.prefix = 'example';
+    $locationProvider.html5Mode(true);
+
+    var user = ['$rootScope', 'userService','storageService', 'storageConstant', function ($rootScope, userService, storageService, storageConstant) {
+        var user =  storageService.getSessionItem(storageConstant.USER);
+
+        if(user === null || user === undefined) {
+            userService.retrieve()
+                .then(function (user) {
+                    storageService.setSessionItem(storageConstant.USER, user);
+
+                    $rootScope.user = user;
+                });
+        } else {
+            $rootScope.user = user;
+        }
+    }];
+
+    var clear = ['$rootScope', 'storageService', 'storageConstant', function ($rootScope, storageService, storageConstant) {
+        storageService.removeSessionItem(storageConstant.USER);
+
+        delete $rootScope.user;
+    }];
 
 	// ======= router configuration =============
 
 	$routeProvider
 		.when('/main', {
+            title: 'Main',
 			templateUrl: 'resources/html/partials/view/main.html'
 		})
 		.when('/customer/search', {
+            title: 'Customer Search',
 			controller: 'CustomerController',
-			templateUrl: 'resources/html/partials/view/customer_search.html'
+			templateUrl: 'resources/html/partials/view/customer_search.html',
+            resolve: {
+                user: user
+            }
 		})
 		.when('/login', {
-			templateUrl: 'resources/html/partials/view/login.html'
+            title: 'Login',
+			templateUrl: 'resources/html/partials/view/login.html',
+            controller: 'LoginController',
+            resolve: {
+                clear: clear
+            }
 		})
 		.otherwise({ redirectTo : "/main"});
 	
 	// ======== http configuration ===============
-	
-	//configure $http to view a login whenever a 401 unauthorized response arrives
-    $httpProvider.responseInterceptors.push(function ($rootScope, $q) {
-        return function (promise) {
-            return promise.then(
-                //success -> don't intercept
-                function (response) {
-                    return response;
-                },
-                //error -> if 401 save the request and broadcast an event
-                function (response) {
-                    if (response.status === 401) {
-                        var deferred = $q.defer(),
-                            req = {
-                                config: response.config,
-                                deferred: deferred
-                            };
 
-                        $httpProvider.defaults.headers.common.Authorization = null;
+    $httpProvider.interceptors.push(function ($q, $location, messageService, storageService, storageConstant) {
+        return {
+            'request': function(request) {
+                messageService.clearError();
 
-                        $rootScope.requests401.push(req);
-                        $rootScope.$broadcast('event:loginRequired');
+                var authToken = storageService.getSessionItem(storageConstant.AUTH_TOKEN);
 
-                        return deferred.promise;
-                    }
-                    return $q.reject(response);
+                if (authToken) {
+                    request.headers['X-AUTH-TOKEN'] = authToken;
                 }
-            );
+
+                return request;
+            },
+            'response': function (response) {
+                return response;
+            },
+            'responseError': function (rejection) {
+                switch (rejection.status) {
+                    case 400: {
+                        break;
+                    }
+                    case 401:
+                    case 403: {
+                        $location.path("/login");
+
+                        break;
+                    }
+                    case 500: {
+                        break;
+                    }
+                    default : {
+                        messageService.error("UNKNOWN_ERROR", "An error has occurred, please try again.");
+
+                        break;
+                    }
+                }
+
+                return $q.reject(rejection);
+            }
         };
     });
 }]);

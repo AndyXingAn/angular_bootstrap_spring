@@ -9,24 +9,24 @@
         <link rel="icon" href="img/favicon.png"/>
         <link rel="stylesheet" type="text/css" href="css/style.css">
 		
-		<title data-ng-bind="title">Customer Library</title>
+		<title>Customer Library</title>
 	</head>
-	<body data-ng-controller="MainController">
+	<body>
 
-        <!-- Header -->
-        <div ng-include src="'resources/html/partials/common/header.html'"></div>
-		
-		<!-- Menu -->
-        <div ng-include src="'resources/html/partials/common/menu.html'"></div>
+        <div ng-include src="'html/partials/common/header.html'"></div>
 
-        <!-- Error -->
-        <div ng-include src="'resources/html/partials/common/error.html'"></div>
+        <div ng-include src="'html/partials/common/menu.html'"></div>
 
-        <!-- PARTIALS -->
+        <div ng-include src="'html/partials/common/alert.html'"></div>
+
+        <div ng-include src="'html/partials/common/error.html'"></div>
+
 		<div class="section">
 
 			<div data-ng-view></div>
 		</div>
+
+        <div ng-include src="'html/partials/common/footer.html'"></div>
 
         <!-- inject:js -->
         <!-- endinject -->
