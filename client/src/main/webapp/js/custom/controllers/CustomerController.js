@@ -3,8 +3,8 @@
 angular.module('app.controllers').controller('CustomerController',['$rootScope', '$scope', 'customerService', 'messageService', function ($rootScope, $scope, customerService, messageService) {
 
     customerService.getCustomers().then(
-        function success(response) {
-            $scope.customers = response;
+        function success(customers) {
+            $scope.customers = customers;
         },
         function error() {
             messageService.error("CUSTOMERS_GET_FAILURE", "Oooooops something went wrong, please try again");
