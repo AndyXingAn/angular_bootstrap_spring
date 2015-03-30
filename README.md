@@ -13,46 +13,56 @@ The CLIENT currently is run via grunt, for a production release you could extrac
 
 Ensure that you proxy the API so that you have the same domain otherwise you will experience CORS related issues. (deployed artefacts only)
 
-Spring 4: 
-	Used to create RESTful controller interfaces which in turn gets called through ajax requests.
+### Spring 4:
+Used to create RESTful controller interfaces which in turn gets called through ajax requests.
 	
-Spring Security 4:
-    Used for a stateless api that allows authentication via basic authentication or token authentication.
+### Spring Security 4:
+Used for a stateless api that allows authentication via basic authentication or token authentication.
 
-    Upon authentication a token is attached to the header response which can in turn be used for sequential requests to be authenticated against.
+Upon authentication a token is attached to the header response which can in turn be used for sequential requests to be authenticated against.
 
-	When an authentication fails a 401 will always be returned.
+When an authentication fails a 401 will always be returned.
 
-Login Details as per database inject.sql:
-	Username = user@tester.com.au
-	Password = password    
+### Login Details as per database inject.sql:
+**Username =** user@tester.com.au
+
+**Password =** password
 
 Testing
 ====================
-Simply run on the parent pom to have node and modules auto install and execute all tests. (REQUIRED FOR FIRST RUN)
-   mvn clean install
+Simply run on the parent pom to have node and modules auto install and execute all tests. **(REQUIRED FOR FIRST RUN)**
+
+**mvn clean install**
 
 To run specific profiles please run mvn clean install and simple pass the profile you wish to execute.
 
 This will execute Java and Jasmine tests that will test both java classes and angular js files.
 
+You can also run jasmine only tests if you wish via the front end:
+
+**http://localhost:7777/test**
+
 Running
 ====================
 
-Recommendations:
+### Recommendations:
 
 Use IntelliJ 14+ to run the application.
 
-To run the API via Tomcat 8 please set the following:
-Deploy exploded artefact to Tomcat 8 and ensure the root context is set to API
+### Run the API via Tomcat 8:
 
-To run the CLIENT via gulp.js please set the following:
+Deploy exploded artefact to Tomcat 8 and ensure the root context is set to API.
 
-Gulp File: <PATH>\angular_bootstrap_spring\client\gulpfile.js
-Tasks: run
-Node Interpreter: <NODE_PATH>\node.exe
-Gulp package: <PATH>\angular_bootstrap_spring\client\node_modules\gulp
+### Run the CLIENT via gulp.js:
 
-The application is set to run on http://localhost:7777
+**Gulp File:** <PATH>\angular_bootstrap_spring\client\gulpfile.js
 
-You can also run jasmine only tests if you wish via the front end: http://localhost:7777/test
+**Tasks:** run
+
+**Node Interpreter:** <NODE_PATH>\node.exe
+
+**Gulp package:** <PATH>\angular_bootstrap_spring\client\node_modules\gulp
+
+### The application is set to run on
+
+**http://localhost:7777**
