@@ -23,7 +23,7 @@
 <br/>
 
 <div class="panel-content">
-	<div id="{{customer.id}}" style="min-width: 300px;" class="panel panel-primary inline" data-ng-repeat="customer in customers | filter:search:strict | orderBy:'lastName'">
+	<div id="{{customer.id}}" class="panel panel-primary inline customer-panel" data-ng-repeat="customer in customers | filter:search:strict | orderBy:'lastName'">
         <form editable-form name="editableForm" onaftersave="save(customer.id)">
             <div class="panel-heading clearfix">
               <div class="panel-title pull-left"><b>{{customer.firstName}}&nbsp;{{customer.lastName}}</b></div>
