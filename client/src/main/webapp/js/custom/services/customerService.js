@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.services').service('CustomerService', function ($http, $q) {
+angular.module('app.services').service('customerService', [ '$http', '$q', function ($http, $q) {
     this.getCustomers = function () {
         var d = $q.defer();
 
@@ -42,4 +42,4 @@ angular.module('app.services').service('CustomerService', function ($http, $q) {
 
         return d.promise;
     };
-});
+}]);
