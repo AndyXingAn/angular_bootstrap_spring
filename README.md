@@ -32,6 +32,8 @@ Testing
 ====================
 Simply run on the parent pom to have node and modules auto install and execute all tests. **(REQUIRED FOR FIRST RUN)**
 
+Ensure you have Maven 3.1.0+
+
 **mvn clean install**
 
 To run specific profiles please run mvn clean install and simple pass the profile you wish to execute.
