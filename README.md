@@ -1,5 +1,6 @@
 angular_bootstrap_spring
 ========================
+[![Build Status](https://travis-ci.org/Robert-Leggett/angular_bootstrap_spring.svg?branch=master)](https://travis-ci.org/Robert-Leggett/angular_bootstrap_spring)
 
 Angular JS with Bootstrap and Spring 4 and Spring Security
 
@@ -12,6 +13,9 @@ The API can run on any web server, but it has been tested against Tomcat 8, the 
 The CLIENT currently is run via grunt, for a production release you could extract the .zip artefact and run the static client via Apache.
 
 Ensure that you proxy the API so that you have the same domain otherwise you will experience CORS related issues. (deployed artefacts only)
+
+### Gulp:
+Used as the build tool for the client, this has been written using ES6
 
 ### Spring 4:
 Used to create RESTful controller interfaces which in turn gets called through ajax requests.
