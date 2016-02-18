@@ -24,6 +24,8 @@
         <phantomjs.configuration.version>2.0.0</phantomjs.configuration.version>
         <jasmine.maven.plugin.version>2.0</jasmine.maven.plugin.version>
         <frontend.maven.plugin>0.0.26</frontend.maven.plugin>
+
+        <phantomjs.binary>${project.build.directory}/phantomjs-maven-plugin/phantomjs-${phantomjs.configuration.version}-windows/bin/phantomjs.exe</phantomjs.binary>
     </properties>
 
     <build>
@@ -85,22 +87,16 @@
                     </webDriverCapabilities>
                     <preloadSources>
                         <!-- third-party -->
-                        <source>${project.basedir}/src/main/webapp/js/jquery/jquery.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/angular/angular.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/angular/angular-route.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/angular/angular-messages.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/angular/angular-aria.js</source>
+                        <source>${project.basedir}/node_modules/angular/angular.js</source>
+                        <source>${project.basedir}/node_modules/angular-route/angular-route.js</source>
+                        <source>${project.basedir}/node_modules/angular-messages/angular-messages.js</source>
+                        <source>${project.basedir}/node_modules/angular-aria/angular-aria.js</source>
                         <!-- required -->
-                        <source>${project.basedir}/src/test/webapp/specs/angular/angular-mocks.js</source>
-                        <source>${project.basedir}/src/test/webapp/specs/angular/angular-jasmine.js</source>
-                        <!-- custom -->
-                        <source>${project.basedir}/src/main/webapp/js/custom/app.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/custom/config.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/custom/listener.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/custom/controller.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/custom/controllers/**/*.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/custom/service.js</source>
-                        <source>${project.basedir}/src/main/webapp/js/custom/services/**/*.js</source>
+                        <source>${project.basedir}/node_modules/angular-mocks/angular-mocks.js</source>
+                        <source>${project.basedir}/src/test/webapp/js/angular/angular-jasmine.js</source>
+                        <!-- app -->
+                        <source>${project.basedir}/src/main/webapp/js/app/*.js</source>
+                        <source>${project.basedir}/src/main/webapp/js/app/**/*.js</source>
                     </preloadSources>
                     <jsSrcDir>${project.basedir}/src/main/webapp/js</jsSrcDir>
                     <jsTestSrcDir>${project.basedir}/src/test/webapp/specs</jsTestSrcDir>

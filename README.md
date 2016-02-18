@@ -55,11 +55,13 @@ Use IntelliJ 14+ to run the application.
 
 Deploy exploded artefact to Tomcat 8 and ensure the root context is set to API.
 
-### Run the CLIENT via gulp.js:
+### Run the CLIENT via gulp.bable.js:
+
+First ensure you have run: **npm install -g babel**
 
 Where PATH is the directory to your checked out project.
 
-**Gulp File:** PATH\angular_bootstrap_spring\client\gulpfile.js
+**Gulp File:** PATH\angular_bootstrap_spring\client\gulpfile.bable.js
 
 **Tasks:** run
 
