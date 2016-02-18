@@ -166,10 +166,10 @@ function testJs() {
     require.resolve('angular-messages/angular-messages.js'),
     require.resolve('angular-aria/angular-aria.js'),
     require.resolve('angular-mocks/angular-mocks.js'),
-    'src/test/webapp/js/angular/angular-jasmine.js',
-    'src/main/webapp/js/app/*.js',
-    'src/main/webapp/js/app/**/*.js',
-    'src/test/webapp/specs/**/*.spec.js'
+    'src/test/webapp/specs/angular/angular-jasmine.js',
+    'src/main/webapp/js/custom/*.js',
+    'src/main/webapp/js/custom/**/*.js',
+    'src/test/webapp/specs/custom/*.spec.js'
   ]);
 }
 
@@ -286,7 +286,7 @@ gulp.task('watch-test-js', ['compile-test-js'], () => {
   });
 });
 
-gulp.task('zip', ['compile-js', 'compile-scss'], () => {
+gulp.task('zip', ['compile-font', 'compile-js', 'compile-scss'], () => {
   let buildNumber = argv['build-number'] || process.env['GULP_BUILD_NUMBER'];
   let filename = argv['zip-filename'] || process.env['GULP_ZIP_FILENAME'] || project.name + '-' + project.version + (buildNumber !== undefined ? '+build.' + buildNumber : '') + '.zip';
 
@@ -331,6 +331,7 @@ gulp.task('run', ['compile-font', 'watch-html', 'watch-js', 'watch-scss', 'watch
     .use(connectLiveReload({
       port: liveReloadPort
     }))
+    .use('/test/js', expressStatic('target/gulp/test/js'))
     .use('/test', expressJasmine())
     .use('/specs', expressStatic('src/test/webapp/specs'))
     .use(expressIndex())
