@@ -10,7 +10,7 @@ The application has been broken into two modules API and CLIENT, both are built 
 
 The API can run on any web server, but it has been tested against Tomcat 8, the server required http DELETE and PUT, so ensure your web server can support those http methods.
 
-The CLIENT currently is run via grunt, for a production release you could extract the .zip artefact and run the static client via Apache.
+The CLIENT currently is run via gulp, for a production release you could extract the .zip artefact and run the static client via Apache.
 
 Ensure that you proxy the API so that you have the same domain otherwise you will experience CORS related issues. (deployed artefacts only)
 
