@@ -36,7 +36,7 @@ Testing
 ====================
 Simply run on the parent pom to have node and modules auto install and execute all tests. **(REQUIRED FOR FIRST RUN)**
 
-Ensure you have Maven 3.1.0+
+Ensure you have Maven 3.2.0+
 
 **mvn clean install**
 
@@ -46,22 +46,20 @@ This will execute Java and Jasmine tests that will test both java classes and an
 
 You can also run jasmine only tests if you wish via the front end:
 
-**http://localhost:7777/test**
+**http://localhost:4444/test**
 
 Running
 ====================
 
 ### Recommendations:
 
-Use IntelliJ 14+ to run the application.
+Use IntelliJ 16+ to run the application.
 
 ### Run the API via Tomcat 8:
 
 Deploy exploded artefact to Tomcat 8 and ensure the root context is set to API.
 
 ### Run the CLIENT via gulp.babel.js:
-
-First ensure you have run: **npm install -g babel**
 
 Where PATH is the directory to your checked out project.
 
@@ -75,4 +73,4 @@ Where PATH is the directory to your checked out project.
 
 ### The application is set to run on
 
-**http://localhost:7777**
+**http://localhost:4444**
