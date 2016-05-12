@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.codec.Base64;
-import org.springframework.security.test.context.support.WithSecurityContextTestExcecutionListener;
+import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,13 +30,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { AppConfig.class, SecurityConfig.class, PersistenceConfig.class })
+@ContextConfiguration(classes = {AppConfig.class, SecurityConfig.class, PersistenceConfig.class})
 @WebAppConfiguration
-@TestExecutionListeners(listeners = { ServletTestExecutionListener.class,
+@TestExecutionListeners(listeners = {ServletTestExecutionListener.class,
         DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
-        WithSecurityContextTestExcecutionListener.class })
+        WithSecurityContextTestExecutionListener.class})
 public class UserControllerEndpointUnitTest {
 
     @Autowired
@@ -50,9 +50,9 @@ public class UserControllerEndpointUnitTest {
     @Before
     public void setup() {
         mockMvc = MockMvcBuilders
-                    .webAppContextSetup(wac)
-                    .addFilters(springSecurityFilterChain)
-                    .build();
+                .webAppContextSetup(wac)
+                .addFilters(springSecurityFilterChain)
+                .build();
     }
 
     @Test
@@ -60,10 +60,10 @@ public class UserControllerEndpointUnitTest {
         String basicDigestHeaderValue = "Basic " + new String(Base64.encode(("test-user-db@tester.com.au:password").getBytes()));
 
         mockMvc.perform(
-                    get("/user/retrieve")
-                    .with(testSecurityContext())
-                    .accept(MediaType.APPLICATION_JSON_VALUE)
-                    .header("Authorization", basicDigestHeaderValue))
+                get("/user/retrieve")
+                        .with(testSecurityContext())
+                        .accept(MediaType.APPLICATION_JSON_VALUE)
+                        .header("Authorization", basicDigestHeaderValue))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(jsonPath("$.email").value("test-user-db@tester.com.au"));
@@ -72,8 +72,8 @@ public class UserControllerEndpointUnitTest {
     @Test
     public void shouldNotGetAuthenticatedUserWithNoUserDetails() throws Exception {
         mockMvc.perform(
-                    get("/user/retrieve")
-                    .accept(MediaType.APPLICATION_JSON))
+                get("/user/retrieve")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isUnauthorized());
     }
 }

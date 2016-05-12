@@ -1,13 +1,18 @@
 'use strict';
 
-angular.module('app.controllers').controller('CustomerController',['$rootScope', '$scope', 'customerService', 'messageService', function ($rootScope, $scope, customerService, messageService) {
+angular.module('app.controllers').controller('CustomerController',['$rootScope', '$scope', '$location', 'customerService', 'messageService', function ($rootScope, $scope, $location, customerService, messageService) {
 
     customerService.getCustomers().then(
         function success(customers) {
             $scope.customers = customers;
         },
-        function error() {
-            messageService.error("CUSTOMERS_GET_FAILURE", "Oooooops something went wrong, please try again");
+        function error(status) {
+            if(status === 401) {
+                $location.path("/login");
+            }
+            else {
+                messageService.error("CUSTOMERS_GET_FAILURE", "Oooooops something went wrong, please try again");
+            }
         });
 
     $scope.remove = function remove(id) {

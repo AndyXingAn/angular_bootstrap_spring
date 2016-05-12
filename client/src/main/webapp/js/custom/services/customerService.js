@@ -8,8 +8,8 @@ angular.module('app.services').service('customerService', [ '$http', '$q', 'prop
             .success(function (customers) {
                 d.resolve(customers);
             })
-            .error(function () {
-                d.reject();
+            .error(function (data, status, headers, config) {
+                d.reject(status);
             });
 
         return d.promise;

@@ -30,7 +30,10 @@ angular.module('app').config([ '$routeProvider', '$httpProvider', '$locationProv
 	$routeProvider
 		.when('/main', {
             title: 'Main',
-			templateUrl: 'html/partials/view/main.html'
+			templateUrl: 'html/partials/view/main.html',
+            resolve: {
+                user: user
+            }
 		})
 		.when('/customer/search', {
             title: 'Customer Search',
@@ -70,15 +73,9 @@ angular.module('app').config([ '$routeProvider', '$httpProvider', '$locationProv
             },
             'responseError': function (rejection) {
                 switch (rejection.status) {
-                    case 400: {
-                        break;
-                    }
+                    case 400:
                     case 401:
-                    case 403: {
-                        $location.path("/login");
-
-                        break;
-                    }
+                    case 403:
                     case 500: {
                         break;
                     }

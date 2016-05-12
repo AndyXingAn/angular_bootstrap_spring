@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app.services').service('authenticationService', ['$http', '$q', 'base64Service', 'storageService', 'storageConstant', 'propertiesConstant', function ($http, $q, base64Service, storageService, storageConstant, propertiesConstant) {
+angular.module('app.services').service('authenticationService', ['$rootScope', '$http', '$q', 'base64Service', 'storageService', 'storageConstant', 'propertiesConstant', function ($rootScope, $http, $q, base64Service, storageService, storageConstant, propertiesConstant) {
     this.login = function (credentials) {
         var d = $q.defer();
 
@@ -27,9 +27,10 @@ angular.module('app.services').service('authenticationService', ['$http', '$q', 
 
         $http.post(propertiesConstant.API_URL + '/auth/logout', null)
             .success(function () {
-
                 storageService.removeSessionItem(storageConstant.AUTH_TOKEN);
                 storageService.removeSessionItem(storageConstant.USER);
+
+              delete $rootScope.user;
 
                 d.resolve();
             })
